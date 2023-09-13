@@ -3,20 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mc Donals!</title>
+    <title>tienda</title>
     <link rel="stylesheet" type="text/css" href="PreEntrega1_Orantes.css">
-    <script src="PreEntrega1_Orantes.js"></script>
+    
 </head>
 <body>
 
-    <div class="pagina_principal">
+    <div class="contenedorGeneral">
+      <aside id="aside" class="aside-total">
+          <div class="aside">
+              <h2>total a pagar</h2>
+              <p> </p>
+              <div class="producto-eliminar">
+                <button id="eliminar">Eliminar</button>
+              </div>
+              <div class="producto-pagar">
+                <button id="pagar">Pagar</button>
+              </div>
+          </div>
+      </aside>
 
-        <h1>Bienvenido a mc donals</h1>
-        
+      <main id="main" class="main-productos">
+          <div class="main">
+
+            <div class="contenedor-productos">
+
+              <div class="producto">
+                <div class="producto-img">
+                  <img src="#">
+                </div>
+                <div class="producto-inf">
+                  <p>Producto </p>
+                  <p>precio: 10</p>
+                  <p id="cantidad">Existencia: </p>
+                </div>
+                <div class="boton">
+                  <button id="btnAgg1" class="boton-agregar">agregar</button>
+                </div>
+              </div>
+              
+              <div class="producto">
+                <div class="producto-img">
+                  <img src="#">
+                </div>
+                <div class="producto-inf">
+                  <p>Producto: </p>
+                  <p>precio: 10</p>
+                </div>
+                <div class="boton">
+                  <button id="btnAgg2" class="boton-agregar">agregar</button>
+                </div>
+              </div>
+              <div class="producto">
+                <div class="producto-img">
+                  <img src="#">
+                </div>
+                <div class="producto-inf">
+                  <p>Producto</p>
+                  <p>precio: 10</p>
+                </div>
+                <div class="boton">
+                  <button id="btnAgg3" class="boton-agregar">agregar</button>
+                </div>
+              </div>
+              <div class="producto">
+                <div class="producto-img">
+                  <img src="#">
+                </div>
+                <div class="producto-inf">
+                  <p>Producto</p>
+                  <p>precio: 10</p>
+                </div>
+                <div class="boton">
+                  <button id="btnAgg4" class="boton-agregar">agregar</button>
+                </div>
+              </div>
+            
+            </div>
+               
+          </div>
+      </main>
     </div>
     
-    <p><script> document.write("El total a pagar es de: "+total); </script></p>
 
 
+    <script src="PreEntrega1_Orantes.js"></script>
 </body>
 </html>
