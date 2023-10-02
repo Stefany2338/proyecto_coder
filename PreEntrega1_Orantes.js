@@ -1,156 +1,100 @@
-/*----------------pre entrega #3*/
+const eleccion=document.getElementById("eleccion")
+const elegido=document.getElementById("enviarEleccion")
+const mostrar=document.getElementById("listaPokemones")
+const container = document.getElementById('pokemon-container');
+const containerElegido=document.getElementById("pokeElegido")
+let chose
+let y
+const apiUrl = 'https://pokeapi.co/api/v2/pokemon/';
+elegido.addEventListener("click", enviarEleccion)  
 
-//llamando
-let agg1=document.getElementById("btnAgg1")
-let agg2=document.getElementById("btnAgg2")
-let agg3=document.getElementById("btnAgg3")
-let agg4=document.getElementById("btnAgg4")
-let btnEliminar=document.getElementById("eliminar")
-let btnPagar=document.getElementById("pagar")
 
-//la clase para los productos
-class menu{
-    constructor(nombre, precio, existencia){
-        this.nombre=nombre;
-        this.precio=precio;
-        this.existencia=existencia;
+//funcion del boton enviar
+function enviarEleccion() {
+    y=eleccion.value
+    console.log(eleccion.value)
+    fetchPokemonData(y); 
+}
+
+//array para guardar al elegido
+let pokemonDataArray = [];
+
+//para mostrar a los pokemones
+async function cargarPokemon() {
+  try {
+      const response = await fetch(apiUrl + '?limit=20');
+    const data = await response.json();
+
+    data.results.forEach(async (pokemon) => {
+      const pokemonDataResponse = await fetch(pokemon.url);
+      const pokemonData = await pokemonDataResponse.json();
+      const nombrePokemon=pokemon.name;
+      const nombreElement=document.createElement('p')
+      nombreElement.textContent=nombrePokemon
+      container.appendChild(nombreElement)
+      const imageUrl = pokemonData.sprites.front_default;
+      const imgElement = document.createElement('img');
+      imgElement.src = imageUrl;
+      container.appendChild(imgElement);
+    });
+  } catch (error) {
+    console.error('Error al cargar los Pokémon:', error);
+  }
+}
+window.onload = cargarPokemon;
+
+//para cargar al elegido
+function fetchPokemonData(y) {
+    fetch(apiUrl)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        for (let r=0; r<=data.results.length; r++){
+            pokemonDataArray.push(data.results[r+1]);
+        }
+        if (pokemonDataArray.length > y) {
+          console.log('Pokemon en el índice', y, ':', pokemonDataArray[y]);
+        data.results.forEach(async (pokemon) => {
+        const pokemonDataResponse = await fetch(pokemon.url);
+        const pokemonElement = await pokemonDataResponse.json();
+        mostrarPokemon(y);  
+      });
+        } else {
+          console.log('No se encontró un Pokémon en el índice', y);
+        }
+      })
+      .catch((error) => {
+        console.error('Error al obtener datos de Pokémon:', error);
+      });
+  }
+numeroPokemon=y
+
+//para mostrar al elegido
+async function mostrarPokemon(numeroPokemon) {
+    try {
+      const apiUrl = `https://pokeapi.co/api/v2/pokemon/${numeroPokemon}/`;
+      const response = await fetch(apiUrl);
+      const data = await response.json()
+      const imageUrl = data.sprites.front_default;
+      const nombrePokemon = data.name;
+      const imgElement = document.createElement('img');
+      imgElement.src = imageUrl;
+      const containerElegido = document.getElementById('pokeElegido');
+      containerElegido.innerHTML = ''; // Limpiar cualquier contenido anterior
+      containerElegido.appendChild(imgElement);
+      const nombreElement = document.createElement('p');
+      nombreElement.textContent = nombrePokemon;
+      containerElegido.appendChild(nombreElement);
+    } catch (error) {
+      console.error('Error al cargar el Pokémon:', error);
     }
-}
+  }
 
-//los productos
-const op1={
-    nombre: "hamburguesa1",
-    precio: 10,
-    existencia: 3
-}
-const op2={
-    nombre: "hamburguesa2",
-    precio: 15,
-    existencia: 4
-}
-const op3={
-    nombre: "hamburguesa3",
-    precio: 20,
-    existencia: 5
-}
-const op4={
-    nombre: "hamburguesa4",
-    precio: 25,
-    existencia: 6
-}
-
-//el array donde se van a pushear los productos
-let orden=[];
-
-//variables para hacer cuentas
-let total=0;
-let op=0
-
-//----------------------------------------------------------------------------------sumar con parametros
-// function agregar(total, precio, p){
-//     op=precio
-//     total=total+op
-//     console.log(total)
-
-//     /*
-//     count=orden.push(p)
-//     console.log(orden)
-//     console.log("producto: "+op3.nombre+" precio: "+op3.precio+" total: "+total)
-//     */
-
-// }
-
-// agg1.addEventListener("click", agregar(total, op1.precio /*,op1*/))
-// agg2.addEventListener("click", agregar(total, op2.precio))
-// agg3.addEventListener("click", agregar(total, op3.precio))
-// agg4.addEventListener("click", agregar(total, op4.precio))
-
-
-//funcion para hacer la suma 
-function sumar(par){
-    total=total+par
-}
-
-
-
-//funciones(por cada producto) para agregar los productos al array de orden
-function n1(){
-    if (op1.existencia>0){
-        console.log(op1.existencia)
-        count=orden.push(op1)
-        console.log(orden)
-        op1.existencia=op1.existencia-1
-        console.log(op1.existencia)
-        sumar(op1.precio)
-        console.log(total)
-        console.log("producto: "+op1.nombre+" precio: "+op1.precio+" total: "+total)
-    }else{
-        alert("ya no hay")
-    }
-}
-function n2(){
-    if (op2.existencia>0){
-        console.log(op2.existencia)
-        op2.existencia=op2.existencia-1
-        console.log(op2.existencia)
-        count=orden.push(op2)
-        sumar(op2.precio)
-        console.log(orden)
-        console.log(total)
-        console.log("producto: "+op2.nombre+" precio: "+op2.precio+" total: "+total)
-    }else{
-        alert("ya no hay")
-    }
-}
-function n3(){
-    if (op3.existencia>0){
-        console.log(op3.existencia)
-        op3.existencia=op3.existencia-1
-        console.log(op3.existencia)
-        count=orden.push(op3)
-        sumar(op3.precio)
-        console.log(orden)
-        console.log(total)
-        console.log("producto: "+op3.nombre+" precio: "+op3.precio+" total: "+total)
-    }else{
-        alert("ya no hay")
-    }
-}
-function n4(){
-    if (op4.existencia>0){
-        console.log(op4.existencia)
-        op4.existencia=op4.existencia-1
-        console.log(op4.existencia)
-        count=orden.push(op4)
-        sumar(op4.precio)
-        console.log(orden)
-        console.log(total)
-        console.log("producto: "+op4.nombre+" precio: "+op4.precio+" total: "+total)
-    }else{
-        alert("ya no hay")
-    }
-}
-
-//funcion para eliminar productos
-function eliminarProducto(){
-    rest=orden.splice(op1)
-}
-
-//botones
-agg1.addEventListener("click", n1)
-agg2.addEventListener("click", n2)
-agg3.addEventListener("click", n3)
-agg4.addEventListener("click", n4)
-btnEliminar.addEventListener("click", eliminarProducto)
-
-
-//storage
-const enJSON=JSON.stringify(orden)
-localStorage.setItem("orden",enJSON)
-
-if (enJSON){
-    const orden=JSON.parse(enJSON)
-}else{
-    const enJSON=JSON.stringify(orden)
-    localStorage.setItem("orden",enJSON)
-}
+//para cargar la api
+setTimeout(() => {
+ 
+}, 1000); 
